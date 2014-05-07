@@ -106,15 +106,20 @@ namespace Grabacr07.KanColleViewer.Views.Behaviors
 						viewObject = target as IViewObject;
 						if (viewObject == null) return false;
                         //特定のプロキシを通した場合にtarget.widthとtarget.heightの値が"100%"になっているためSSが撮れなくなる？
-                        //widthとheightがそれぞれ"100%"の場合は"800"と"480"に書き換えてみる
-                        if (target.width.Equals("100%"))
+                        //widthとheightの値の末尾が"%"の場合は"800"と"480"に乗算したもので書き換えてみる
+                        if (target.width.EndsWith("%"))
                         {
-                            target.width = "800";
+                            //パーセント値から直接計算出来ないようなので%を取り除いて算出
+                            int widthRate;
+                            widthRate = int.Parse(target.width.TrimEnd('%'));
+                            target.width = 800 * widthRate / 100;
                         }
                         width = int.Parse(target.width);
-                        if (target.height.Equals("100%"))
+                        if (target.height.EndsWith("%"))
                         {
-                            target.height = "480";
+                            int heightRate;
+                            heightRate = int.Parse(target.height.TrimEnd('%'));
+                            target.height = 480 * heightRate / 100;
                         }
                         height = int.Parse(target.height);
 						return true;
