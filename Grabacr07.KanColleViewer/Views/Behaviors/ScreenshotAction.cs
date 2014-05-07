@@ -105,8 +105,18 @@ namespace Grabacr07.KanColleViewer.Views.Behaviors
 						if (target == null) return false;
 						viewObject = target as IViewObject;
 						if (viewObject == null) return false;
-						width = int.Parse(target.width);
-						height = int.Parse(target.height);
+                        //特定のプロキシを通した場合にtarget.widthとtarget.heightの値が"100%"になっているためSSが撮れなくなる？
+                        //widthとheightがそれぞれ"100%"の場合は"800"と"480"に書き換えてみる
+                        if (target.width.Equals("100%"))
+                        {
+                            target.width = "800";
+                        }
+                        width = int.Parse(target.width);
+                        if (target.height.Equals("100%"))
+                        {
+                            target.height = "480";
+                        }
+                        height = int.Parse(target.height);
 						return true;
 					};
 					if (!function(swf as HTMLEmbed) && !function(swf as HTMLObjectElement)) continue;
